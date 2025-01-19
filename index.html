@@ -9,8 +9,15 @@
 <body>
     <h1>Scrap 2 Mastery Level Merge Calculator</h1>
 
-    <label for="Current Total Positions"></label>
-    <input id="totalPosition">
+    <label id ="myTotalPositions">Current Total Positions:</label>
+    <input type="number" value="0" min="0" max="100000" step="1" id="totalPosition">
     <button id="totalPositionSubmit">Submit</button>
+<br><br>
+    <label id ="myMasteryLevel">Target Mastery level:</label>
+    <input type="number" value="0" min="0" max="100000" step="1" id="masteryLevel">
+    <button id="masteryLevelSubmit">Submit</button>
+
+
+    <script src="index.js"></script>
 </body>
 </html>
