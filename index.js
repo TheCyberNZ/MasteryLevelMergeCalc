@@ -5,13 +5,13 @@ let reduction;
 
 document.getElementById("totalPosition").addEventListener("input", function() {
     totalPositions = parseFloat(document.getElementById("totalPosition").value) || 0;
-    document.getElementById("myTotalPositions").textContent = `Current Total Positions:  ${totalPositions}`;
+    document.getElementById("myTotalPositions").textContent = `Current Total Positions:  ${totalPositions.toLocaleString()}`;
     updateCalculations();
 });
 
 document.getElementById("masteryLevel").addEventListener("input", function() {
     targetMasteryLevel = parseFloat(document.getElementById("masteryLevel").value) || 0;
-    document.getElementById("myMasteryLevel").textContent = `Target Mastery level:  ${targetMasteryLevel}`;
+    document.getElementById("myMasteryLevel").textContent = `Target Mastery level:  ${targetMasteryLevel.toLocaleString()}`;
     updateCalculations();
 });
 function updateCalculations() {
@@ -83,8 +83,8 @@ function updateCalculations() {
             mergesNeeded = 2500 * Math.pow((targetMasteryLevel - 10), 2) + 2500 * targetMasteryLevel;
         }
 
-        document.getElementById("label1").textContent = `You need ${(mergesNeeded * reduction).toLocaleString()} merges`;
+        document.getElementById("label1").textContent = `You need ${Math.floor(mergesNeeded * reduction).toLocaleString()} merges`;
         document.getElementById("label2").textContent = `merges to get a barrel to level ${targetMasteryLevel}`;
-        document.getElementById("label3").textContent = `with a reduction of ${reduction.toFixed(6)}`;
+        document.getElementById("label3").textContent = `with a reduction of ${reduction}`;
     }
 }
