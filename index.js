@@ -79,7 +79,8 @@ document.getElementById("calculate").onclick = function () {
     else {
         mergesNeeded = 2500 * Math.pow((targetMasteryLevel - 10), 2) + 2500 * targetMasteryLevel;
     }
-    document.getElementById("label1").textContent = `You need ${mergesNeeded * reduction}`;
+    document.getElementById("label1").textContent =  `You need ${(mergesNeeded * reduction).toLocaleString()} merges`;
+
     document.getElementById("label2").textContent = ` merges to get a barrel to level ${targetMasteryLevel}`;
     document.getElementById("label3").textContent = ` with a reduction of  ${reduction}`;
 }
