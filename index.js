@@ -2,26 +2,17 @@ let totalPositions;
 let mergesNeeded;
 let targetMasteryLevel;
 let reduction;
-
 document.getElementById("totalPositionSubmit").onclick = function () {
     totalPositions = document.getElementById("totalPosition").value;
     document.getElementById("myTotalPositions").textContent = `Current Total Positions:  ${totalPositions}`;
 }
-
 document.getElementById("masteryLevelSubmit").onclick = function () {
     targetMasteryLevel = document.getElementById("masteryLevel").value;
     document.getElementById("myMasteryLevel").textContent = `Target Mastery level:  ${targetMasteryLevel}`;
 }
-
 document.getElementById("calculate").onclick = function () {
-
     targetMasteryLevel = parseFloat(targetMasteryLevel) || 0;
-
-
     reduction = 0.9999 ** totalPositions;
-
-
-
     if (targetMasteryLevel === 0) {
         mergesNeeded = 0;
     }
@@ -88,12 +79,7 @@ document.getElementById("calculate").onclick = function () {
     else {
         mergesNeeded = 2500 * Math.pow((targetMasteryLevel - 10), 2) + 2500 * targetMasteryLevel;
     }
-
-
-
-
-
-    document.getElementById("label1").textContent = `You need ${mergesNeeded*reduction}`;
+    document.getElementById("label1").textContent = `You need ${mergesNeeded * reduction}`;
     document.getElementById("label2").textContent = ` merges to get a barrel to level ${targetMasteryLevel}`;
     document.getElementById("label3").textContent = ` with a reduction of  ${reduction}`;
 }
