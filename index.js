@@ -14,7 +14,6 @@ document.getElementById("masteryLevel").addEventListener("input", function() {
     document.getElementById("myMasteryLevel").textContent = `Target Mastery level:  ${targetMasteryLevel}`;
     updateCalculations();
 });
-
 function updateCalculations() {
     if (totalPositions > 0 && targetMasteryLevel >= 0) {
         reduction = 0.9999 ** totalPositions;
