@@ -16,7 +16,7 @@ document.getElementById("masteryLevel").addEventListener("input", function() {
 });
 function updateCalculations() {
     if (totalPositions > 0 && targetMasteryLevel >= 0) {
-        reduction = 0.9998999834  ** totalPositions;
+        reduction = (8387769 / 8388608) ** totalPositions;
         if (targetMasteryLevel === 0) {
             mergesNeeded = 0;
         } 
