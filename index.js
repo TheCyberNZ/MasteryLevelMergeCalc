@@ -5,18 +5,18 @@ let reduction;
 
 document.getElementById("totalPosition").addEventListener("input", function() {
     totalPositions = parseFloat(document.getElementById("totalPosition").value) || 0;
-    document.getElementById("myTotalPositions").textContent = `Current Total Positions:  ${totalPositions.toLocaleString()}`;
+  //  document.getElementById("myTotalPositions").textContent = `Current Total Positions:  ${totalPositions.toLocaleString()}`;
     updateCalculations();
 });
 
 document.getElementById("masteryLevel").addEventListener("input", function() {
     targetMasteryLevel = parseFloat(document.getElementById("masteryLevel").value) || 0;
-    document.getElementById("myMasteryLevel").textContent = `Target Mastery level:  ${targetMasteryLevel.toLocaleString()}`;
+ //   document.getElementById("myMasteryLevel").textContent = `Target Mastery level:  ${targetMasteryLevel.toLocaleString()}`;
     updateCalculations();
 });
 function updateCalculations() {
     if (totalPositions > 0 && targetMasteryLevel >= 0) {
-        reduction = 0.9999 ** totalPositions;
+        reduction = 0.9998999834  ** totalPositions;
         if (targetMasteryLevel === 0) {
             mergesNeeded = 0;
         } 
@@ -83,8 +83,8 @@ function updateCalculations() {
             mergesNeeded = 2500 * Math.pow((targetMasteryLevel - 10), 2) + 2500 * targetMasteryLevel;
         }
 
-        document.getElementById("label1").textContent = `You need ${Math.floor(mergesNeeded * reduction).toLocaleString()} merges`;
-        document.getElementById("label2").textContent = `merges to get a barrel to level ${targetMasteryLevel}`;
-        document.getElementById("label3").textContent = `with a reduction of ${reduction}`;
+        document.getElementById("label1").textContent = `Merges needed = ${Math.floor(mergesNeeded * reduction).toLocaleString()}`;
+        document.getElementById("label2").textContent = `Mastery Level = ${targetMasteryLevel}`;
+        document.getElementById("label3").textContent = `Reduction =  ${reduction}`;
     }
 }

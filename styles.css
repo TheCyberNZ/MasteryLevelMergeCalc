@@ -9,6 +9,7 @@ body {
     background-color: rgb(156, 209, 167);
     text-align: center;
     margin-top: 2.5%;
+    font-size: 22pt;
 }
 label{
 color: black;
@@ -22,10 +23,11 @@ color: black;
   }
 
   .main-body {   
-    background-color: rgba(255, 255, 255, 0.486);
+    background-color: rgb(156, 209, 167);
     padding: 20px;  
     border-radius: 5px;
     margin-top: 50px; 
     margin: 5%;
     text-align: center;
+    font-size: 20pt;
   }
