@@ -14,8 +14,10 @@ document.getElementById("masteryLevel").addEventListener("input", function() {
  //   document.getElementById("myMasteryLevel").textContent = `Target Mastery level:  ${targetMasteryLevel.toLocaleString()}`;
     updateCalculations();
 });
+
+
 function updateCalculations() {
-    if (totalPositions > 0 && targetMasteryLevel >= 0) {
+    if (totalPositions >= 0 && targetMasteryLevel >= 0) {
         reduction = (8387769 / 8388608) ** totalPositions;
         if (targetMasteryLevel === 0) {
             mergesNeeded = 0;
