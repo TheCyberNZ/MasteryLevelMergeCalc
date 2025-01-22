@@ -33,7 +33,31 @@ color: black;
   }
   .credits{
 
-    text-align: center;
-font-size: x-small;  
+    margin: 0;
+    height: 100%;         
+    position: relative;  
 
 }
+p{
+    position: absolute;
+    bottom: 0;            
+    left: 50%;            
+    transform: translateX(-50%); 
+    font-size: small;
+}
+textbox {
+  width: 100%;
+  max-width: 150px;
+  padding: 10px;
+  margin: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+img {
+  max-width: 50px; /* Set the maximum width */
+  max-height: 50px; /* Set the maximum height */
+  width: auto; /* Maintain aspect ratio */
+  height: auto; /* Maintain aspect ratio */
+}
+
