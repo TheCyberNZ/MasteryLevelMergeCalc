@@ -1,36 +1,84 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/icon.png" type="image/png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/icon.png" type="image/png" />
     <title>Scrap 2 Mastery Level Merge Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet" />
 </head>
 
 <body>
-    <h1>Scrap 2 Mastery Level Merge Calculator</h1>
-    <div class="main-body">
+    <button onclick="switchBody()">Switch View</button>
+    <button onclick="toggleMemory()">Toggle Memory: <span id="memoryStatus">OFF</span></button>
 
-        
-        <label id="myTotalPositions">Current Total Positions:</label>
-        <input type="number" min="0" max="100000" step="1" id="totalPosition">
-        <br><br>
-        <label id="myMasteryLevel">Target Mastery level:</label>
-        <input type="number" min="0" max="100000" step="1" id="masteryLevel">
-        <br><br><br>
-
-        <label id="label1">Merges needed = 0</label> <br>
-        <label id="label2">Mastery Level:<br> <img src="./images/star.png" alt="star"> 0</label> <br>
-        <label id="label3">Reduction = 0</label>
-        <script src="index.js"></script>
-
-
-
-    </div>
-    <div class="credits">
-        <p>Made by Cyber <br>Report bugs to cybernz on discord</p>
+    <!-- Mastery Calculator -->
+    <div id="body2" class="visible">
+        <h1>Scrap 2 Mastery Level Merge Calculator</h1>
+        <div class="background-box">
+            <div class="body2-1">
+                <label>Current Total Positions:</label>
+                <input type="number" min="0" max="100000" step="1" id="totalPosition" />
+                <br /><br />
+                <label>Target Mastery level:</label>
+                <input type="number" min="0" max="100000" step="1" id="masteryLevel" />
+                <br /><br /><br />
+                <label id="label1">Merges needed = 0</label> <br />
+                <div class="image-overlay">
+                    <img src="./images/star.png" alt="star" />
+                    <span class="overlay-text" id="myOverlay">0</span>
+                </div>
+                <label id="label3">Reduction = 0</label>
             </div>
+        </div>
+        <div class="credits">
+            <p>Made by Cyber <br />Report bugs to cybernz on discord</p>
+        </div>
+    </div>
+
+    <!-- XP Calculator -->
+    <div id="body1" class="hidden">
+        <h1>Scrap 2 Quest Level Calculator</h1>
+        <div class="outer-container">
+            <div class="layout">
+                <div class="background-box">
+                    <div class="container">
+                        <h2>Current Quest Levels</h2>
+                        <div class="row top">
+                            <input type="number" class="textbox" placeholder="level 0" id="CurrentQuestLevel" />
+                        </div>
+                        <div class="row">
+                            <img src="./images/Icon_magnet1.png" alt="Magnet" />
+                            <input type="number" class="textbox" placeholder="level 0" id="CurrentMagnetLevel" />
+                            <img src="./images/GS.png" alt="GoldenScrap" />
+                            <input type="number" class="textbox" placeholder="level 0" id="CurrentGoldenScrapLevel" />
+                            <img src="./images/Scrapclicker2_starfragment (1).png" alt="StarFragment" />
+                            <input type="number" class="textbox" placeholder="level 0" id="CurrentStarFragmentLevel" />
+                        </div>
+                        <div class="row">
+                            <img src="./images/XP.png" alt="Xp" />
+                            <input type="number" class="textbox" placeholder="level 0" id="CurrentXpLevel" />
+                            <img src="./images/Scrapclicker2_wrench (1).png" alt="Wrench" />
+                            <input type="number" class="textbox" placeholder="level 0" id="CurrentWrenchLevel" />
+                            <img src="./images/Icon_Scrap_Clicker.png" alt="Scrap" />
+                            <input type="number" class="textbox" placeholder="level 0" id="CurrentScrapLevel" />
+                        </div>
+                        <div class="row bottom">
+                            <img src="./images/Book.png" alt="books" />
+                            <h1 id="output16">Extra books: </h1><br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="credits">
+            <p>Made by Cyber <br />Report bugs to cybernz on discord</p>
+        </div>
+    </div>
+
+    
+    <script src="Logic.js"></script>
 </body>
 
 </html>
