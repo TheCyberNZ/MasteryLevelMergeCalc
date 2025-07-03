@@ -1,13 +1,23 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
     padding: 0;
-    background-color: rgb(156, 209, 167);
-    display: flex;
-    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;
+    height: 10vh;
+    border-radius: 25px;
+    background-color: rgb(156, 209, 167);
+    text-align: center;
+    margin-top: 2.5%;
+    font-size: 22pt;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
 }
 
 h1 {
@@ -66,52 +76,25 @@ h2 {
     box-sizing: border-box;
 }
 
+
 .credits {
-    margin: 0;
-    position: fixed;
-    /* Ensures it's at the bottom of the viewport */
-    bottom: 0;
-    left: 0;
+    margin-top: 22.5%;
     width: 100%;
-    /* Ensures it spans the entire width of the screen */
-    text-align: left;
-    /* Centers the text horizontally */
-    font-size: small;
-    /* Keeps the font size small but readable */
     padding: 10px 0;
-    /* Adds padding for spacing */
+    text-align: center;
+    background-color: rgb(156, 209, 167);
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
 
-    box-sizing: border-box;
-    /* Ensures padding doesn't affect the width */
-}
-
-p {
-    position: fixed;
-    bottom: 0;
-    /* Align to the bottom */
-    margin-left: 1%;
-    left: 0%;
-    /* Center horizontally */
-    transform: translateX(0%);
-    /* Adjust horizontal alignment */
-    font-size: small;
 }
 
 .background-box {
     background-color: rgb(126, 181, 137);
-    /* Background color for the box */
-
     border-radius: 10px;
-    /* Rounded corners for a softer look */
     padding: 20px;
-    /* Add spacing inside the box */
     margin: 20px 0;
-    /* Space around the box */
-
     width: 100%;
-    /* Ensure each layout takes the full width inside the container */
     box-sizing: border-box;
-    /* Includes padding in the width */
 }
 
 .outer-container {
@@ -119,9 +102,7 @@ p {
     justify-content: space-between;
     width: 90%;
     margin: 20px auto;
-    /* Adds spacing between the layouts */
 }
-
 
 .container {
     width: 100%;
@@ -149,13 +130,9 @@ p {
 
 img {
     max-width: 50px;
-    /* Set the maximum width */
     max-height: 50px;
-    /* Set the maximum height */
     width: auto;
-    /* Maintain aspect ratio */
     height: auto;
-    /* Maintain aspect ratio */
 }
 
 .highlightred {
@@ -174,21 +151,7 @@ img {
     display: block;
 }
 
-body {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    margin: 0;
-    height: 100vh;
-    border-radius: 25px;
-    background-color: rgb(156, 209, 167);
-    text-align: center;
-    margin-top: 2.5%;
-    font-size: 22pt;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-}
+
 
 label {
     color: black;
@@ -277,6 +240,59 @@ img {
     pointer-events: none;
     white-space: nowrap;
 }
+
+
+button {
+    width: 85px;
+    padding: 5px 7.5px;
+    font-size: 16px;
+    border: 2px solid rgb(129, 179, 139);
+    border-radius: 6px;
+    outline: none;
+    background-color: rgb(134, 184, 144);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.pulse-button {
+
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    background-color: rgb(134, 184, 144);
+    color: black;
+    padding: 5px 3px;
+    border: 2px solid rgb(129, 179, 139);
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+}
+
+.pulse-button:active {
+    background-color: rgb(112, 158, 121);
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.96);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 
 input[type="text"],
 input[type="number"],

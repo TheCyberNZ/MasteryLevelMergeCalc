@@ -11,9 +11,15 @@ function toggleMemory() {
     memoryEnabled = !memoryEnabled;
     document.getElementById("memoryStatus").textContent = memoryEnabled ? "ON" : "OFF";
     localStorage.setItem("memoryEnabled", memoryEnabled);
-    if (memoryEnabled) loadMemory();
-    else localStorage.clear();
+
+    if (memoryEnabled) {
+        saveMemory();  
+        loadMemory();  
+    } else {
+        localStorage.clear();
+    }
 }
+
 
 function saveMemory() {
     if (!memoryEnabled) return;
@@ -24,7 +30,7 @@ function saveMemory() {
 }
 
 function loadMemory() {
-   const inputs = document.querySelectorAll("input[type='number']");
+    const inputs = document.querySelectorAll("input[type='number']");
     inputs.forEach(input => {
         const val = localStorage.getItem(input.id);
         if (val !== null) {
@@ -32,7 +38,7 @@ function loadMemory() {
         }
     });
 
-  
+
     totalPositions = parseFloat(document.getElementById("totalPosition").value) || 0;
     targetMasteryLevel = parseFloat(document.getElementById("masteryLevel").value) || 0;
 
@@ -49,16 +55,40 @@ function loadMemory() {
     updateCalculations();
 }
 
-function switchBody() {
-    const body1 = document.getElementById("body1");
-    const body2 = document.getElementById("body2");
-    const isBody1Visible = body1.classList.contains("visible");
 
-    body1.classList.toggle("visible", !isBody1Visible);
-    body1.classList.toggle("hidden", isBody1Visible);
-    body2.classList.toggle("visible", isBody1Visible);
-    body2.classList.toggle("hidden", !isBody1Visible);
+
+
+function showOnlyBody(bodyIdToShow) {
+    const allBodies = ["body1", "body2", "body3", "body4"];
+    allBodies.forEach(id => {
+        const el = document.getElementById(id);
+        if (id === bodyIdToShow) {
+            el.classList.add("visible");
+            el.classList.remove("hidden");
+        } else {
+            el.classList.remove("visible");
+            el.classList.add("hidden");
+        }
+    });
 }
+
+function switchBodyMastery() {
+    showOnlyBody("body2");
+}
+
+function switchBodyXp() {
+    showOnlyBody("body1");
+}
+
+function switchBodyRR() {
+    showOnlyBody("body3");
+}
+function switchBodyCredits() {
+    showOnlyBody("body4");
+}
+
+
+
 
 window.addEventListener("DOMContentLoaded", () => {
     // load saved inputs if enabled
@@ -77,10 +107,10 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-  
+
     XpCalculations();
 
-  
+
     document.querySelectorAll("input[type='number']").forEach(input => {
         input.addEventListener("input", () => {
             saveMemory();
@@ -137,7 +167,7 @@ function XpCalculations() {
         });
     });
 
-   
+
     updateAllVariables();
     updateCalculations();
 }
