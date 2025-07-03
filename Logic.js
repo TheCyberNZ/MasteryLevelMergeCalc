@@ -13,8 +13,8 @@ function toggleMemory() {
     localStorage.setItem("memoryEnabled", memoryEnabled);
 
     if (memoryEnabled) {
-        saveMemory();  
-        loadMemory();  
+        saveMemory();
+        loadMemory();
     } else {
         localStorage.clear();
     }

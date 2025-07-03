@@ -13,13 +13,14 @@
 <body>
 
     <div>
-        
-    <button class="pulse-button" onclick="switchBodyMastery()">Mastery Calculator</button>
-    <button class="pulse-button" onclick="switchBodyXp()">Xp Calculator</button>
-    <button class="pulse-button" onclick="switchBodyRR()">Research Calculator</button>
+        <!-- Top head buttons -->
+        <button class="pulse-button" onclick="switchBodyMastery()">Mastery Calculator</button>
+        <button class="pulse-button" onclick="switchBodyXp()">Xp Calculator</button>
+        <button class="pulse-button" onclick="switchBodyRR()">Research Calculator</button>
+
         <!-- Mastery Calculator -->
         <div id="body2" class="visible">
-            <h1>Scrap 2 Mastery Level Merge Calculator</h1>
+            <h1 style="font-size: 30px;">Scrap 2 Mastery Level Merge Calculator</h1>
             <div class="background-box">
                 <div class="body2-1">
                     <label>Current Total Positions:</label>
@@ -32,17 +33,17 @@
                     <div class="image-overlay">
                         <img src="./images/star.png" alt="star" />
                         <span class="overlay-text" id="myOverlay">0</span>
-                    </div> 
+                    </div>
                     <label id="label3">Reduction = 0</label>
                 </div>
             </div>
-            
+
 
         </div>
 
         <!-- XP Calculator -->
         <div id="body1" class="hidden">
-            <h1>Scrap 2 Quest Level Calculator</h1>
+            <h1 style="font-size: 30px;">Scrap 2 Quest Level Calculator</h1>
             <div class="outer-container">
                 <div class="layout">
                     <div class="background-box">
@@ -76,27 +77,35 @@
                 </div>
             </div>
 
-            
+
 
         </div>
 
-<div id="body3" class="hidden">
-<label for="">Coming Soon!</label>
+        <!-- Resource Research Calculator -->
+
+        <div id="body3" class="hidden">
+            <div class="background-box">
+                <label for="">Coming Soon!</label>
+
+            </div>
+
+
+        </div>
 
 
 
+        <!-- Credits  -->
+        <div id="body4" class="hidden">
 
-</div>
+            <div class="background-box">
 
-<div id="body4" class="hidden">
+                <label style="font-size: 30px;">Credits: </label>
+                <Label style="font-size: medium;"> <br> Made By Cyber <br> All images used have had permission given by
+                    Endte <br> Any bugs can be reported to cybernz on discord</Label>
+            </div>
+        </div>
 
-<label for="">Credits: <br> Made By Cyber <br> All images used have had permission given <br> Any bugs can be reported to cybernz on discord</label>
-
-
-
-
-</div>
-
+         <!-- Bottom buttons -->
         <button class="pulse-button" onclick="toggleMemory()">Toggle Memory: <span id="memoryStatus">OFF</span></button>
         <button class="pulse-button" onclick="switchBodyCredits()">Credits</button>
     </div>
