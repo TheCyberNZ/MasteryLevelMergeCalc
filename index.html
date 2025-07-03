@@ -14,9 +14,9 @@
 
     <div>
         
-    <button class="pulse-button" onclick="switchBodyMastery()">Mastery Calc</button>
-    <button class="pulse-button" onclick="switchBodyXp()">Xp Calc</button>
-    <button class="pulse-button" onclick="switchBodyRR()">Research Calc</button>
+    <button class="pulse-button" onclick="switchBodyMastery()">Mastery Calculator</button>
+    <button class="pulse-button" onclick="switchBodyXp()">Xp Calculator</button>
+    <button class="pulse-button" onclick="switchBodyRR()">Research Calculator</button>
         <!-- Mastery Calculator -->
         <div id="body2" class="visible">
             <h1>Scrap 2 Mastery Level Merge Calculator</h1>
@@ -24,15 +24,15 @@
                 <div class="body2-1">
                     <label>Current Total Positions:</label>
                     <input type="number" min="0" max="100000" step="1" id="totalPosition" />
-                    <br /><br />
+                    <br />
                     <label>Target Mastery level:</label>
                     <input type="number" min="0" max="100000" step="1" id="masteryLevel" />
-                    <br /><br /><br />
+                    <br /><br />
                     <label id="label1">Merges needed = 0</label> <br />
                     <div class="image-overlay">
                         <img src="./images/star.png" alt="star" />
                         <span class="overlay-text" id="myOverlay">0</span>
-                    </div>
+                    </div> 
                     <label id="label3">Reduction = 0</label>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <div class="layout">
                     <div class="background-box">
                         <div class="container">
-                            <h2>Current Quest Levels</h2>
+                            <h2>Quest Level</h2>
                             <div class="row top">
                                 <input type="number" class="textbox" placeholder="0" id="CurrentQuestLevel" />
                             </div>
@@ -69,7 +69,7 @@
                             </div>
                             <div class="row bottom">
                                 <img src="./images/Book.png" alt="books" />
-                                <h1 id="output16">Extra books: </h1><br />
+                                <h1 id="output16">Extra books: </h1>
                             </div>
                         </div>
                     </div>
