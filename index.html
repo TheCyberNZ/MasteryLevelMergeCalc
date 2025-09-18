@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="images/icon.png" type="image/png" />
-    <title>Scrap 2 Mastery Level Merge Calculator</title>
+    <title>Scrap 2 Calculators</title>
     <link rel="stylesheet" href="Style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet" />
 </head>
@@ -20,14 +20,14 @@
 
         <!-- Mastery Calculator -->
         <div id="body2" class="visible">
-            <h1 style="font-size: 30px;">Scrap 2 Mastery Level Merge Calculator</h1>
+            <h1 style="font-size: 30px;">Mastery Level Merge Calculator</h1>
             <div class="background-box">
                 <div class="body2-1">
                     <label>Current Total Positions:</label>
-                    <input type="number" min="0" max="100000" step="1" id="totalPosition" />
+                    <input type="number" min="0" max="100000" step="1" id="totalPosition" placeholder="0" />
                     <br />
                     <label>Target Mastery level:</label>
-                    <input type="number" min="0" max="100000" step="1" id="masteryLevel" />
+                    <input type="number" min="0" max="100000" step="1" id="masteryLevel" placeholder="0" />
                     <br /><br />
                     <label id="label1">Merges needed = 0</label> <br />
                     <div class="image-overlay">
@@ -43,7 +43,7 @@
 
         <!-- XP Calculator -->
         <div id="body1" class="hidden">
-            <h1 style="font-size: 30px;">Scrap 2 Quest Level Calculator</h1>
+            <h1 style="font-size: 30px;">Quest Level Calculator</h1>
             <div class="outer-container">
                 <div class="layout">
                     <div class="background-box">
@@ -84,14 +84,42 @@
         <!-- Resource Research Calculator -->
 
         <div id="body3" class="hidden">
-            <div class="background-box">
-                <label for="">Coming Soon!</label>
 
+            <h1 style="font-size: 30px;">Resource Research Calculator</h1>
+            <div class="outer-container">
+                <div class="layout">
+                    <div class="background-box">
+                        <div class="container">
+                            <div class="row2">
+                                <img src="./images/GS.png" alt="Magnet" />
+                                <input type="number" class="textbox" placeholder="0" id="RRGs" />
+                                <img src="./images/RR Icon.png" alt="GoldenScrap" />
+                                <input type="number" class="textbox" placeholder="0" id="RTR" />
+                            </div>
+                            <div class="row">
+                                <img src="./images/BrickIcon.png" alt="Xp" />
+                                <input type="number" class="textbox" placeholder="0" id="RRBrick" />
+                                <img src="./images/Icon_magnet1.png" alt="Wrench" />
+                                <input type="number" class="textbox" placeholder="0" id="RRMagnet" />
+                                <img src="./images/BeamIcon.png" alt="Scrap" />
+                                <input type="number" class="textbox" placeholder="0" id="RRBeam" />
+                            </div>
+                            <div class="row">
+                                <img src="./images/Scrapclicker2_starfragment (1).png" alt="Xp" />
+                                <input type="number" class="textbox" placeholder="0" id="RRFrag" />
+                            </div>
+                            <div class="row bottom">
+                                <button class="pulse-button2" onclick="">Start</button>
+
+                               
+                            </div>
+                            <label for="">test</label>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
+           
         </div>
-
 
 
         <!-- Credits  -->
@@ -105,7 +133,7 @@
             </div>
         </div>
 
-         <!-- Bottom buttons -->
+        <!-- Bottom buttons -->
         <button class="pulse-button" onclick="toggleMemory()">Toggle Memory: <span id="memoryStatus">OFF</span></button>
         <button class="pulse-button" onclick="switchBodyCredits()">Credits</button>
     </div>
