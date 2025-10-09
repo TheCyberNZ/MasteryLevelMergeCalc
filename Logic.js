@@ -20,7 +20,6 @@ function toggleMemory() {
     }
 }
 
-
 function saveMemory() {
     if (!memoryEnabled) return;
     const inputs = document.querySelectorAll("input[type='number']");
@@ -38,7 +37,6 @@ function loadMemory() {
         }
     });
 
-
     totalPositions = parseFloat(document.getElementById("totalPosition").value) || 0;
     targetMasteryLevel = parseFloat(document.getElementById("masteryLevel").value) || 0;
 
@@ -50,16 +48,13 @@ function loadMemory() {
     CurrentWrenchLevel = parseFloat(document.getElementById("CurrentWrenchLevel").value) || 0;
     CurrentScrapLevel = parseFloat(document.getElementById("CurrentScrapLevel").value) || 0;
 
-
     updateMasteryCalculations();
     updateCalculations();
+
 }
 
-
-
-
 function showOnlyBody(bodyIdToShow) {
-    const allBodies = ["body1", "body2", "body3", "body4"];
+    const allBodies = ["body1", "body2", "body3", "body4", "body5"];
     allBodies.forEach(id => {
         const el = document.getElementById(id);
         if (id === bodyIdToShow) {
@@ -83,20 +78,22 @@ function switchBodyXp() {
 function switchBodyRR() {
     showOnlyBody("body3");
 }
+
 function switchBodyCredits() {
     showOnlyBody("body4");
 }
 
-
-
+function switchBodyHowTo() {
+    showOnlyBody("body5");
+}
 
 window.addEventListener("DOMContentLoaded", () => {
-    // load saved inputs if enabled
+    // Load saved inputs if enabled
     memoryEnabled = localStorage.getItem("memoryEnabled") === "true";
     document.getElementById("memoryStatus").textContent = memoryEnabled ? "ON" : "OFF";
     if (memoryEnabled) loadMemory();
 
-    //  update calculations and save memory on input
+    // Mastery Calculator input listeners
     ["totalPosition", "masteryLevel"].forEach(id => {
         const el = document.getElementById(id);
         el.addEventListener("input", () => {
@@ -107,15 +104,31 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
+    // XP Calculator logic
     XpCalculations();
 
+    // Resource Research Calculator input listeners
+    [
+        "RRGs", "RTR", "RRCostReduction", "RRBrick",
+        "RRMagnet", "RRBeam", "RRMoreReinforced",
+        "RRFrag", "RRReinforcedValue"
+    ].forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener("input", () => {
+            RRCalculations();
+            saveMemory();
+        });
+    });
 
+    // Save memory on any other input
     document.querySelectorAll("input[type='number']").forEach(input => {
         input.addEventListener("input", () => {
             saveMemory();
         });
     });
+
+    // Run RR calculation once on page load
+    RRCalculations();
 });
 
 function updateMasteryCalculations() {
@@ -167,7 +180,6 @@ function XpCalculations() {
         });
     });
 
-
     updateAllVariables();
     updateCalculations();
 }
@@ -209,4 +221,40 @@ function updateCalculations() {
         (CurrentTotalScrap - CurrentScrapCost);
 
     document.getElementById("output16").textContent = `Extra Books: ${Math.floor(CurrentTotalBooksEarnt - CurrentTotalBooksSpent).toLocaleString()}`;
+}
+
+function RRCalculations() {
+    const RRGs = parseFloat(document.getElementById("RRGs").value) || 0;
+    const RTR = parseFloat(document.getElementById("RTR").value) || 0;
+    const RRCostReduction = parseFloat(document.getElementById("RRCostReduction").value) || 0;
+    const RRBrick = parseFloat(document.getElementById("RRBrick").value) || 0;
+    const RRMagnet = parseFloat(document.getElementById("RRMagnet").value) || 0;
+    const RRBeam = parseFloat(document.getElementById("RRBeam").value) || 0;
+    const RRMoreReinforced = parseFloat(document.getElementById("RRMoreReinforced").value) || 0;
+    const RRFrag = parseFloat(document.getElementById("RRFrag").value) || 0;
+    const RRReinforcedValue = parseFloat(document.getElementById("RRReinforcedValue").value) || 0;
+
+
+
+    // Add more RR calculation logic here as needed...
+
+
+
+
+
+
+
+
+    //just for testing to display
+    document.getElementById("output17").textContent = `RRGs: ${Math.floor(RRGs).toLocaleString()}`;
+    document.getElementById("output18").textContent = `RTR: ${Math.floor(RTR).toLocaleString()}`;
+    document.getElementById("output19").textContent = `RRCostReduction: ${Math.floor(RRCostReduction).toLocaleString()}`;
+    document.getElementById("output20").textContent = `RRBrick: ${Math.floor(RRBrick).toLocaleString()}`;
+    document.getElementById("output21").textContent = `RRMagnet: ${Math.floor(RRMagnet).toLocaleString()}`;
+    document.getElementById("output22").textContent = `RRBeam: ${Math.floor(RRBeam).toLocaleString()}`;
+    document.getElementById("output23").textContent = `RRMoreReinforced: ${Math.floor(RRMoreReinforced).toLocaleString()} `;
+    document.getElementById("output24").textContent = `RRFrag: ${Math.floor(RRFrag).toLocaleString()}`;
+    document.getElementById("output25").textContent = `RRReinforcedValue: ${Math.floor(RRReinforcedValue).toLocaleString()}`;
+    document.getElementById("output26").textContent = `Total Upgrades: ${Math.floor(RRReinforcedValue + RRGs + RTR + RRCostReduction + RRBrick + RRMagnet + RRBeam + RRMoreReinforced + RRFrag).toLocaleString()}`;
+
 }
