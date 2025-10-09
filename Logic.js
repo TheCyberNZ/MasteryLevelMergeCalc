@@ -20,7 +20,6 @@ function toggleMemory() {
     }
 }
 
-
 function saveMemory() {
     if (!memoryEnabled) return;
     const inputs = document.querySelectorAll("input[type='number']");
@@ -38,7 +37,6 @@ function loadMemory() {
         }
     });
 
-
     totalPositions = parseFloat(document.getElementById("totalPosition").value) || 0;
     targetMasteryLevel = parseFloat(document.getElementById("masteryLevel").value) || 0;
 
@@ -50,20 +48,13 @@ function loadMemory() {
     CurrentWrenchLevel = parseFloat(document.getElementById("CurrentWrenchLevel").value) || 0;
     CurrentScrapLevel = parseFloat(document.getElementById("CurrentScrapLevel").value) || 0;
 
-
     updateMasteryCalculations();
     updateCalculations();
+
 }
 
-
-
-
 function showOnlyBody(bodyIdToShow) {
-<<<<<<< Updated upstream
-    const allBodies = ["body1", "body2", "body3", "body4"];
-=======
-    const allBodies = ["body1", "body2", "body3", "body4", "body5","body6"];
->>>>>>> Stashed changes
+    const allBodies = ["body1", "body2", "body3", "body4", "body5"];
     allBodies.forEach(id => {
         const el = document.getElementById(id);
         if (id === bodyIdToShow) {
@@ -87,29 +78,22 @@ function switchBodyXp() {
 function switchBodyRR() {
     showOnlyBody("body3");
 }
+
 function switchBodyCredits() {
     showOnlyBody("body4");
 }
 
-<<<<<<< Updated upstream
-
-
-
-=======
 function switchBodyHowTo() {
     showOnlyBody("body5");
 }
-function switchBodySY() {
-    showOnlyBody("body6");
-}
->>>>>>> Stashed changes
+
 window.addEventListener("DOMContentLoaded", () => {
-    // load saved inputs if enabled
+    // Load saved inputs if enabled
     memoryEnabled = localStorage.getItem("memoryEnabled") === "true";
     document.getElementById("memoryStatus").textContent = memoryEnabled ? "ON" : "OFF";
     if (memoryEnabled) loadMemory();
 
-    //  update calculations and save memory on input
+    // Mastery Calculator input listeners
     ["totalPosition", "masteryLevel"].forEach(id => {
         const el = document.getElementById(id);
         el.addEventListener("input", () => {
@@ -120,15 +104,31 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
+    // XP Calculator logic
     XpCalculations();
 
+    // Resource Research Calculator input listeners
+    [
+        "RRGs", "RTR", "RRCostReduction", "RRBrick",
+        "RRMagnet", "RRBeam", "RRMoreReinforced",
+        "RRFrag", "RRReinforcedValue"
+    ].forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener("input", () => {
+            RRCalculations();
+            saveMemory();
+        });
+    });
 
+    // Save memory on any other input
     document.querySelectorAll("input[type='number']").forEach(input => {
         input.addEventListener("input", () => {
             saveMemory();
         });
     });
+
+    // Run RR calculation once on page load
+    RRCalculations();
 });
 
 function updateMasteryCalculations() {
@@ -180,7 +180,6 @@ function XpCalculations() {
         });
     });
 
-
     updateAllVariables();
     updateCalculations();
 }
@@ -223,8 +222,6 @@ function updateCalculations() {
 
     document.getElementById("output16").textContent = `Extra Books: ${Math.floor(CurrentTotalBooksEarnt - CurrentTotalBooksSpent).toLocaleString()}`;
 }
-<<<<<<< Updated upstream
-=======
 
 function RRCalculations() {
     const RRGs = parseFloat(document.getElementById("RRGs").value) || 0;
@@ -239,93 +236,25 @@ function RRCalculations() {
 
 
 
-
-    let RRCountingEnabled = false;
-    let RRTotalTimeHours = 0;
+    // Add more RR calculation logic here as needed...
 
 
-    let RR_RTR_BASE = 0.9550020471;
 
 
-    const RRUpgradeLevels = {
-        RRGs: 0,
-        RRCostReduction: 0,
-        RRBrick: 0,
-        RRMagnet: 0,
-        RRBeam: 0,
-        RRMoreReinforced: 0,
-        RRFrag: 0,
-        RRReinforcedValue: 0
-
-    };
 
 
-    function getRTRMultiplier() {
-        const RTR = parseFloat(document.getElementById("RTR").value) || 0;
-        return Math.pow(RR_RTR_BASE, RTR);
-    }
-
-    function formatTime(totalHours) {
-        const totalMinutes = Math.floor(totalHours * 60);
-        const days = Math.floor(totalMinutes / (60 * 24));
-        const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
-        const minutes = totalMinutes % 60;
-
-        let parts = [];
-        if (days > 0) parts.push(`${days}d`);
-        if (hours > 0 || days > 0) parts.push(`${hours}h`);
-        parts.push(`${minutes}m`);
-
-        return parts.join(" ");
-    }
 
 
-    function startRRCounting() {
-        RRCountingEnabled = true;
-        RRTotalTimeHours = 0;
-
-        Object.keys(RRUpgradeLevels).forEach(id => {
-            RRUpgradeLevels[id] = parseFloat(document.getElementById(id).value) || 0;
-        });
-
-        document.getElementById("outpu").textContent = `Total Time: ${formatTime(RRTotalTimeHours)}`;
-    }
-
-
-    document.getElementById("RRStartButton").addEventListener("click", startRRCounting);
-
-
-    Object.keys(RRUpgradeLevels).forEach(id => {
-        const el = document.getElementById(id);
-        el.addEventListener("input", () => {
-            if (!RRCountingEnabled) return;
-
-            const newValue = parseFloat(el.value) || 0;
-            const oldValue = RRUpgradeLevels[id];
-            const diff = newValue - oldValue;
-            const rtrMult = getRTRMultiplier();
-
-            if (diff > 0) {
-
-                for (let lvl = oldValue + 1; lvl <= newValue; lvl++) {
-                    RRTotalTimeHours += 6 * lvl * rtrMult;
-                }
-            } else if (diff < 0) {
-
-                for (let lvl = oldValue; lvl > newValue; lvl--) {
-                    RRTotalTimeHours -= 6 * lvl * rtrMult;
-                }
-            }
-
-            RRUpgradeLevels[id] = newValue;
-            if (RRTotalTimeHours < 0) RRTotalTimeHours = 0;
-
-            document.getElementById("outpu").textContent =
-                `Total Time: ${formatTime(RRTotalTimeHours)}`;
-        });
-    });
-
-
+    //just for testing tgo display
+    document.getElementById("output17").textContent = `RRGs: ${Math.floor(RRGs).toLocaleString()}`;
+    document.getElementById("output18").textContent = `RTR: ${Math.floor(RTR).toLocaleString()}`;
+    document.getElementById("output19").textContent = `RRCostReduction: ${Math.floor(RRCostReduction).toLocaleString()}`;
+    document.getElementById("output20").textContent = `RRBrick: ${Math.floor(RRBrick).toLocaleString()}`;
+    document.getElementById("output21").textContent = `RRMagnet: ${Math.floor(RRMagnet).toLocaleString()}`;
+    document.getElementById("output22").textContent = `RRBeam: ${Math.floor(RRBeam).toLocaleString()}`;
+    document.getElementById("output23").textContent = `RRMoreReinforced: ${Math.floor(RRMoreReinforced).toLocaleString()} `;
+    document.getElementById("output24").textContent = `RRFrag: ${Math.floor(RRFrag).toLocaleString()}`;
+    document.getElementById("output25").textContent = `RRReinforcedValue: ${Math.floor(RRReinforcedValue).toLocaleString()}`;
+    document.getElementById("output26").textContent = `Total Upgrades: ${Math.floor(RRReinforcedValue + RRGs + RTR + RRCostReduction + RRBrick + RRMagnet + RRBeam + RRMoreReinforced + RRFrag).toLocaleString()}`;
 
 }
->>>>>>> Stashed changes

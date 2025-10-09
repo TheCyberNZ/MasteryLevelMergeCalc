@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="images/icon.png" type="image/png" />
-    <title>Scrap 2 Mastery Level Merge Calculator</title>
+    <title>Scrap 2 Calculators</title>
     <link rel="stylesheet" href="Style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet" />
 </head>
@@ -16,18 +16,18 @@
         <!-- Top head buttons -->
         <button class="pulse-button" onclick="switchBodyMastery()">Mastery Calculator</button>
         <button class="pulse-button" onclick="switchBodyXp()">Xp Calculator</button>
-        <button class="pulse-button" onclick="switchBodyRR()">Research Calculator <br>(unfinished)</button>
-        <button class="pulse-button" onclick="switchBodySY()">Scrapyard Calculator</button>
+        <button class="pulse-button" onclick="switchBodyRR()">Research Calculator</button>
+
         <!-- Mastery Calculator -->
         <div id="body2" class="visible">
-            <h1 style="font-size: 30px;">Scrap 2 Mastery Level Merge Calculator</h1>
+            <h1 style="font-size: 30px;">Mastery Level Merge Calculator</h1>
             <div class="background-box">
                 <div class="body2-1">
                     <label>Current Total Positions:</label>
-                    <input type="number" min="0" max="100000" step="1" id="totalPosition" />
+                    <input type="number" min="0" max="100000" step="1" id="totalPosition" placeholder="0" />
                     <br />
                     <label>Target Mastery level:</label>
-                    <input type="number" min="0" max="100000" step="1" id="masteryLevel" />
+                    <input type="number" min="0" max="100000" step="1" id="masteryLevel" placeholder="0" />
                     <br /><br />
                     <label id="label1">Merges needed = 0</label> <br />
                     <div class="image-overlay">
@@ -43,7 +43,7 @@
 
         <!-- XP Calculator -->
         <div id="body1" class="hidden">
-            <h1 style="font-size: 30px;">Scrap 2 Quest Level Calculator</h1>
+            <h1 style="font-size: 30px;">Quest Level Calculator</h1>
             <div class="outer-container">
                 <div class="layout">
                     <div class="background-box">
@@ -84,13 +84,8 @@
         <!-- Resource Research Calculator -->
 
         <div id="body3" class="hidden">
-            <div class="background-box">
-                <label for="">Coming Soon!</label>
 
-<<<<<<< Updated upstream
-=======
             <h1 style="font-size: 30px;">Resource Research Calculator</h1>
-            <label for="">this is still a work in progress and may not work properly.</label>
             <div class="outer-container">
                 <div class="layout">
                     <div class="background-box">
@@ -98,11 +93,11 @@
                             <div class="row2">
                                 <img src="./images/GS.png" alt="Magnet" />
                                 <input type="number" class="textbox" placeholder="0" id="RRGs" />
-                                <img src="./images/RR Icon.png" alt="GoldenScrap" />
+                                <img src="./images/RR_Icon.png" alt="GoldenScrap" />
                                 <input type="number" class="textbox" placeholder="0" id="RTR" />
                             </div>
                             <div class="row">
-                                <img src="./images/RR Icon.png" alt="GoldenScrap" />
+                                <img src="./images/RR_Icon.png" alt="GoldenScrap" />
                                 <input type="number" class="textbox" placeholder="0" id="RRCostReduction" />
                                 <img src="./images/BrickIcon.png" alt="Xp" />
                                 <input type="number" class="textbox" placeholder="0" id="RRBrick" />
@@ -133,52 +128,44 @@
                     <div class="background-box">
                         <div class="container">
                             <button class="pulse-button2" onclick="switchBodyHowTo()">How to use</button>
-                            <button class="pulse-button2" id="RRStartButton">Start</button>
+                            <button class="pulse-button2" onclick="">Start</button>
 
-                            <label for="" id="outpu"><br>Total Time: <br> </label>
-
+                            <label for="" id="output111"><br>Total Time: <br> </label>
 
                             <label for=""><br> </label>
-                        
+                            <label for="" id="output26"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="outpu"><br>**for testing </label>
+                            <label for=""><br> </label>
+                            <!-- for testing  -->
+                            <label for="" id="output17"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output18"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output19"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output20"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output21"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output22"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output23"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output24"><br>Total Time: </label>
+                            <label for=""><br> </label>
+                            <label for="" id="output25"><br>Ttotal Time: </label>
 
                         </div>
                     </div>
 
 
                 </div>
->>>>>>> Stashed changes
             </div>
-
 
         </div>
 
 
-
-<<<<<<< Updated upstream
-=======
- <!-- Scrap yard calcs  -->
-
-        <div id="body6" class="hidden">
-            <h1 style="font-size: 30px;">Scrapyard Calculators</h1>
-            <div class="outer-container">
-                <div class="layout">
-                    <div class="background-box">
-                        <div class="container">
-                            
-
-<label for="">Coming soon!</label>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
->>>>>>> Stashed changes
         <!-- Credits  -->
         <div id="body4" class="hidden">
 
@@ -190,7 +177,19 @@
             </div>
         </div>
 
-         <!-- Bottom buttons -->
+
+        <!-- How to use rr  -->
+        <div id="body5" class="hidden">
+
+            <div class="background-box">
+
+
+                <label style="font-size: 30px;">How to use RR calc: </label>
+                <Label style="font-size: medium;"> <br> Coming soon</Label>
+            </div>
+
+        </div>
+        <!-- Bottom buttons -->
         <button class="pulse-button" onclick="toggleMemory()">Toggle Memory: <span id="memoryStatus">OFF</span></button>
         <button class="pulse-button" onclick="switchBodyCredits()">Credits</button>
     </div>

@@ -96,6 +96,15 @@ h2 {
     width: 100%;
     box-sizing: border-box;
 }
+.background-box2 {
+    background-color: rgb(85, 129, 94);
+    border-radius: 5px;
+    padding: 1px;
+    margin: 5px ;
+    
+  
+}
+
 
 .outer-container {
     display: flex;
@@ -112,6 +121,12 @@ h2 {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+}
+.row2 {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-left: 152px;
 }
 
 .row.top {
@@ -158,8 +173,8 @@ label {
 }
 
 .container {
-    max-width: 10000px;
-    padding-bottom: 60px;
+   
+    padding-bottom: 6px;
     text-align: center;
     border-radius: 25px;
     font-family: 'Open Sans', sans-serif;
@@ -257,6 +272,22 @@ button {
     margin-right: 10px;
 }
 
+.pulse-button2 {
+
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    background-color: rgb(156, 209, 167);
+    color: black;
+    padding: 5px 3px;
+    border: 2px solid rgb(129, 179, 139);
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+}
 .pulse-button {
 
     width: auto;
@@ -292,8 +323,6 @@ button {
         transform: scale(1);
     }
 }
-
-
 
 
 input[type="text"],
