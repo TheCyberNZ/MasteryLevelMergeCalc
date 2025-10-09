@@ -245,16 +245,94 @@ function RRCalculations() {
 
 
 
-    //just for testing tgo display
-    document.getElementById("output17").textContent = `RRGs: ${Math.floor(RRGs).toLocaleString()}`;
-    document.getElementById("output18").textContent = `RTR: ${Math.floor(RTR).toLocaleString()}`;
-    document.getElementById("output19").textContent = `RRCostReduction: ${Math.floor(RRCostReduction).toLocaleString()}`;
-    document.getElementById("output20").textContent = `RRBrick: ${Math.floor(RRBrick).toLocaleString()}`;
-    document.getElementById("output21").textContent = `RRMagnet: ${Math.floor(RRMagnet).toLocaleString()}`;
-    document.getElementById("output22").textContent = `RRBeam: ${Math.floor(RRBeam).toLocaleString()}`;
-    document.getElementById("output23").textContent = `RRMoreReinforced: ${Math.floor(RRMoreReinforced).toLocaleString()} `;
-    document.getElementById("output24").textContent = `RRFrag: ${Math.floor(RRFrag).toLocaleString()}`;
-    document.getElementById("output25").textContent = `RRReinforcedValue: ${Math.floor(RRReinforcedValue).toLocaleString()}`;
-    document.getElementById("output26").textContent = `Total Upgrades: ${Math.floor(RRReinforcedValue + RRGs + RTR + RRCostReduction + RRBrick + RRMagnet + RRBeam + RRMoreReinforced + RRFrag).toLocaleString()}`;
+ 
+
+
+let RRCountingEnabled = false;
+let RRTotalTimeHours = 0;
+
+
+let RR_RTR_BASE = 0.9550020471;
+
+
+const RRUpgradeLevels = {
+    RRGs: 0,
+    RRCostReduction: 0,
+    RRBrick: 0,
+    RRMagnet: 0,
+    RRBeam: 0,
+    RRMoreReinforced: 0,
+    RRFrag: 0,
+    RRReinforcedValue: 0
+  
+};
+
+
+function getRTRMultiplier() {
+    const RTR = parseFloat(document.getElementById("RTR").value) || 0;
+    return Math.pow(RR_RTR_BASE, RTR);
+}
+
+// Format hours into Xd Xh Xm
+function formatTime(totalHours) {
+    const totalMinutes = Math.floor(totalHours * 60);
+    const days = Math.floor(totalMinutes / (60 * 24));
+    const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+    const minutes = totalMinutes % 60;
+
+    let parts = [];
+    if (days > 0) parts.push(`${days}d`);
+    if (hours > 0 || days > 0) parts.push(`${hours}h`);
+    parts.push(`${minutes}m`);
+
+    return parts.join(" ");
+}
+
+
+function startRRCounting() {
+    RRCountingEnabled = true;
+    RRTotalTimeHours = 0;
+
+  
+    Object.keys(RRUpgradeLevels).forEach(id => {
+        RRUpgradeLevels[id] = parseFloat(document.getElementById(id).value) || 0;
+    });
+
+    document.getElementById("outpu").textContent = `Total Time: ${formatTime(RRTotalTimeHours)}`;
+}
+
+
+document.getElementById("RRStartButton").addEventListener("click", startRRCounting);
+
+
+Object.keys(RRUpgradeLevels).forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener("input", () => {
+        if (!RRCountingEnabled) return;
+
+        const newValue = parseFloat(el.value) || 0;
+        const oldValue = RRUpgradeLevels[id];
+        const diff = newValue - oldValue;
+        const rtrMult = getRTRMultiplier();
+
+        if (diff > 0) {
+           
+            for (let lvl = oldValue + 1; lvl <= newValue; lvl++) {
+                RRTotalTimeHours += 6 * lvl * rtrMult;
+            }
+        } else if (diff < 0) {
+           
+            for (let lvl = oldValue; lvl > newValue; lvl--) {
+                RRTotalTimeHours -= 6 * lvl * rtrMult;
+            }
+        }
+
+        RRUpgradeLevels[id] = newValue;
+        if (RRTotalTimeHours < 0) RRTotalTimeHours = 0;
+
+        document.getElementById("outpu").textContent =
+            `Total Time: ${formatTime(RRTotalTimeHours)}`;
+    });
+});
 
 }
