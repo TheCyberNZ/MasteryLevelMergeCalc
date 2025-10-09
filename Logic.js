@@ -59,7 +59,11 @@ function loadMemory() {
 
 
 function showOnlyBody(bodyIdToShow) {
+<<<<<<< Updated upstream
     const allBodies = ["body1", "body2", "body3", "body4"];
+=======
+    const allBodies = ["body1", "body2", "body3", "body4", "body5","body6"];
+>>>>>>> Stashed changes
     allBodies.forEach(id => {
         const el = document.getElementById(id);
         if (id === bodyIdToShow) {
@@ -87,9 +91,18 @@ function switchBodyCredits() {
     showOnlyBody("body4");
 }
 
+<<<<<<< Updated upstream
 
 
 
+=======
+function switchBodyHowTo() {
+    showOnlyBody("body5");
+}
+function switchBodySY() {
+    showOnlyBody("body6");
+}
+>>>>>>> Stashed changes
 window.addEventListener("DOMContentLoaded", () => {
     // load saved inputs if enabled
     memoryEnabled = localStorage.getItem("memoryEnabled") === "true";
@@ -210,3 +223,109 @@ function updateCalculations() {
 
     document.getElementById("output16").textContent = `Extra Books: ${Math.floor(CurrentTotalBooksEarnt - CurrentTotalBooksSpent).toLocaleString()}`;
 }
+<<<<<<< Updated upstream
+=======
+
+function RRCalculations() {
+    const RRGs = parseFloat(document.getElementById("RRGs").value) || 0;
+    const RTR = parseFloat(document.getElementById("RTR").value) || 0;
+    const RRCostReduction = parseFloat(document.getElementById("RRCostReduction").value) || 0;
+    const RRBrick = parseFloat(document.getElementById("RRBrick").value) || 0;
+    const RRMagnet = parseFloat(document.getElementById("RRMagnet").value) || 0;
+    const RRBeam = parseFloat(document.getElementById("RRBeam").value) || 0;
+    const RRMoreReinforced = parseFloat(document.getElementById("RRMoreReinforced").value) || 0;
+    const RRFrag = parseFloat(document.getElementById("RRFrag").value) || 0;
+    const RRReinforcedValue = parseFloat(document.getElementById("RRReinforcedValue").value) || 0;
+
+
+
+
+    let RRCountingEnabled = false;
+    let RRTotalTimeHours = 0;
+
+
+    let RR_RTR_BASE = 0.9550020471;
+
+
+    const RRUpgradeLevels = {
+        RRGs: 0,
+        RRCostReduction: 0,
+        RRBrick: 0,
+        RRMagnet: 0,
+        RRBeam: 0,
+        RRMoreReinforced: 0,
+        RRFrag: 0,
+        RRReinforcedValue: 0
+
+    };
+
+
+    function getRTRMultiplier() {
+        const RTR = parseFloat(document.getElementById("RTR").value) || 0;
+        return Math.pow(RR_RTR_BASE, RTR);
+    }
+
+    function formatTime(totalHours) {
+        const totalMinutes = Math.floor(totalHours * 60);
+        const days = Math.floor(totalMinutes / (60 * 24));
+        const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+        const minutes = totalMinutes % 60;
+
+        let parts = [];
+        if (days > 0) parts.push(`${days}d`);
+        if (hours > 0 || days > 0) parts.push(`${hours}h`);
+        parts.push(`${minutes}m`);
+
+        return parts.join(" ");
+    }
+
+
+    function startRRCounting() {
+        RRCountingEnabled = true;
+        RRTotalTimeHours = 0;
+
+        Object.keys(RRUpgradeLevels).forEach(id => {
+            RRUpgradeLevels[id] = parseFloat(document.getElementById(id).value) || 0;
+        });
+
+        document.getElementById("outpu").textContent = `Total Time: ${formatTime(RRTotalTimeHours)}`;
+    }
+
+
+    document.getElementById("RRStartButton").addEventListener("click", startRRCounting);
+
+
+    Object.keys(RRUpgradeLevels).forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener("input", () => {
+            if (!RRCountingEnabled) return;
+
+            const newValue = parseFloat(el.value) || 0;
+            const oldValue = RRUpgradeLevels[id];
+            const diff = newValue - oldValue;
+            const rtrMult = getRTRMultiplier();
+
+            if (diff > 0) {
+
+                for (let lvl = oldValue + 1; lvl <= newValue; lvl++) {
+                    RRTotalTimeHours += 6 * lvl * rtrMult;
+                }
+            } else if (diff < 0) {
+
+                for (let lvl = oldValue; lvl > newValue; lvl--) {
+                    RRTotalTimeHours -= 6 * lvl * rtrMult;
+                }
+            }
+
+            RRUpgradeLevels[id] = newValue;
+            if (RRTotalTimeHours < 0) RRTotalTimeHours = 0;
+
+            document.getElementById("outpu").textContent =
+                `Total Time: ${formatTime(RRTotalTimeHours)}`;
+        });
+    });
+
+
+
+}
+>>>>>>> Stashed changes
