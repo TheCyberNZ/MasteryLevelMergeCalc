@@ -124,8 +124,9 @@ h2 {
 }
 .row2 {
     display: flex;
-    justify-content: left;
+    justify-content: flex-start;
     margin-bottom: 20px;
+    margin-left: 152px;
 }
 
 .row.top {
@@ -322,8 +323,6 @@ button {
         transform: scale(1);
     }
 }
-
-
 
 
 input[type="text"],
