@@ -256,6 +256,7 @@ let RR_RTR_BASE = 0.9550020471;
 
 
 const RRUpgradeLevels = {
+    RTR: 0,                   
     RRGs: 0,
     RRCostReduction: 0,
     RRBrick: 0,
@@ -264,8 +265,8 @@ const RRUpgradeLevels = {
     RRMoreReinforced: 0,
     RRFrag: 0,
     RRReinforcedValue: 0
-  
 };
+
 
 
 function getRTRMultiplier() {
@@ -288,18 +289,83 @@ function formatTime(totalHours) {
     return parts.join(" ");
 }
 
+// Map RR input IDs to nice display names
+const upgradeNameMap = {
+    RTR: "RTR",                     // 🆕 added
+    RRGs: "GS",
+    RRCostReduction: "CostRed",
+    RRBrick: "Brick",
+    RRMagnet: "Magnet",
+    RRBeam: "Beam",
+    RRMoreReinforced: "MoreReinf",
+    RRFrag: "Frag",
+    RRReinforcedValue: "ReinfVal"
+};
+
+
+// Keeps track of net changes so we can remove/update properly
+const RRUpgradeChanges = {};
+
+function updateUpgradesLabel(id, diff, timeChangeHours) {
+    const label = document.getElementById("RRUpgradesLabel");
+    const name = upgradeNameMap[id];
+
+    // Update our tracking object
+    RRUpgradeChanges[id] = (RRUpgradeChanges[id] || 0) + diff;
+
+    // If change goes back to 0, delete it from the list
+    if (RRUpgradeChanges[id] === 0) {
+        delete RRUpgradeChanges[id];
+    }
+
+    // Rebuild the label from scratch
+    const entries = Object.entries(RRUpgradeChanges).map(([key, change]) => {
+        const displayName = upgradeNameMap[key];
+        const timeForChange = getTimeForChange(key, change);
+        const sign = change > 0 ? "+" : "";
+        return `${displayName}${sign}${change} (${timeForChange})`;
+    });
+
+    label.textContent = entries.length > 0
+        ? `Upgrades Done: ${entries.join(", ")}`
+        : "Upgrades Done: None";
+}
+
+// Helper: calculate total time change for a particular upgrade ID and diff
+function getTimeForChange(id, diff) {
+    const oldVal = RRUpgradeLevels[id];
+    const newVal = oldVal + diff;
+    const rtrMult = getRTRMultiplier();
+
+    let total = 0;
+    if (diff > 0) {
+        for (let lvl = newVal - diff + 1; lvl <= newVal; lvl++) {
+            total += 6 * lvl * rtrMult;
+        }
+    } else {
+        for (let lvl = oldVal; lvl > newVal; lvl--) {
+            total -= 6 * lvl * rtrMult;
+        }
+    }
+
+    return (diff > 0 ? "+" : "") + formatTime(Math.abs(total));
+}
 
 function startRRCounting() {
     RRCountingEnabled = true;
     RRTotalTimeHours = 0;
 
-  
     Object.keys(RRUpgradeLevels).forEach(id => {
         RRUpgradeLevels[id] = parseFloat(document.getElementById(id).value) || 0;
     });
 
+ 
+    for (const key in RRUpgradeChanges) delete RRUpgradeChanges[key];
+
+    document.getElementById("RRUpgradesLabel").textContent = "Upgrades Done: None";
     document.getElementById("outpu").textContent = `Total Time: ${formatTime(RRTotalTimeHours)}`;
 }
+
 
 
 document.getElementById("RRStartButton").addEventListener("click", startRRCounting);
@@ -313,18 +379,38 @@ Object.keys(RRUpgradeLevels).forEach(id => {
         const newValue = parseFloat(el.value) || 0;
         const oldValue = RRUpgradeLevels[id];
         const diff = newValue - oldValue;
-        const rtrMult = getRTRMultiplier();
 
-        if (diff > 0) {
+        if (diff === 0) return;
+
+        let timeChangeHours = 0;
+
+        if (id === "RTR") {
            
+            RRUpgradeLevels[id] = newValue;
+
+            let newTotalHours = 0;
+            for (const key in RRUpgradeLevels) {
+                if (key === "RTR") continue;
+                const lvl = RRUpgradeLevels[key];
+                for (let i = 1; i <= lvl; i++) {
+                    newTotalHours += 6 * i * getRTRMultiplier();
+                }
+            }
+
+            RRTotalTimeHours = newTotalHours;
+            timeChangeHours = 0; // RTR itself has no direct time cost
+
+        } else if (diff > 0) {
             for (let lvl = oldValue + 1; lvl <= newValue; lvl++) {
-                RRTotalTimeHours += 6 * lvl * rtrMult;
+                timeChangeHours += 6 * lvl * getRTRMultiplier();
             }
+            RRTotalTimeHours += timeChangeHours;
+
         } else if (diff < 0) {
-           
             for (let lvl = oldValue; lvl > newValue; lvl--) {
-                RRTotalTimeHours -= 6 * lvl * rtrMult;
+                timeChangeHours -= 6 * lvl * getRTRMultiplier();
             }
+            RRTotalTimeHours += timeChangeHours;
         }
 
         RRUpgradeLevels[id] = newValue;
@@ -332,7 +418,10 @@ Object.keys(RRUpgradeLevels).forEach(id => {
 
         document.getElementById("outpu").textContent =
             `Total Time: ${formatTime(RRTotalTimeHours)}`;
+
+        updateUpgradesLabel(id, diff, timeChangeHours);
     });
 });
+
 
 }

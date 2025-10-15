@@ -348,3 +348,10 @@ input[type="password"]:focus {
     border-color: rgb(42, 102, 54);
     box-shadow: 0 0 8px rgb(42, 102, 54);
 }
+#RRUpgradesLabel, 
+#RRUpgradesLog {
+  width: 300px;           /* or whatever width you want */
+  white-space: normal;    /* allow wrapping instead of one long line */
+  word-wrap: break-word;  /* break very long words if needed */
+  overflow-wrap: anywhere;
+}
