@@ -54,7 +54,7 @@ function loadMemory() {
 }
 
 function showOnlyBody(bodyIdToShow) {
-    const allBodies = ["body1", "body2", "body3", "body4", "body5"];
+    const allBodies = ["body1", "body2", "body3", "body4", "body5", "body6"];
     allBodies.forEach(id => {
         const el = document.getElementById(id);
         if (id === bodyIdToShow) {
@@ -85,6 +85,10 @@ function switchBodyCredits() {
 
 function switchBodyHowTo() {
     showOnlyBody("body5");
+}
+
+function switchBodySY() {
+    showOnlyBody("body6");
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -233,195 +237,254 @@ function RRCalculations() {
     const RRMoreReinforced = parseFloat(document.getElementById("RRMoreReinforced").value) || 0;
     const RRFrag = parseFloat(document.getElementById("RRFrag").value) || 0;
     const RRReinforcedValue = parseFloat(document.getElementById("RRReinforcedValue").value) || 0;
+    const RREnchantedFrags = parseFloat(document.getElementById("RREnchantedFrags").value) || 0;
+    const RRMoreEnchantedFrags = parseFloat(document.getElementById("RRMoreEnchantedFrags").value) || 0;
+    const RRFasterCombine = parseFloat(document.getElementById("RRFasterCombine").value) || 0;
+
+
+    let RRCountingEnabled = false;
+    let RRTotalTimeHours = 0;
+
+
+    let RR_RTR_BASE = 0.9550020471;
+
+
+    const RRUpgradeLevels = {
+        RTR: 0,
+        RRGs: 0,
+        RRCostReduction: 0,
+        RRBrick: 0,
+        RRMagnet: 0,
+        RRBeam: 0,
+        RRMoreReinforced: 0,
+        RRFrag: 0,
+        RRReinforcedValue: 0,
+        RREnchantedFrags: 0,
+    RRMoreEnchantedFrags: 0,
+        RRFasterCombine: 0
+    };
 
 
 
-    // Add more RR calculation logic here as needed...
-
-
-
-
-
-
-
-
- 
-
-
-let RRCountingEnabled = false;
-let RRTotalTimeHours = 0;
-
-
-let RR_RTR_BASE = 0.9550020471;
-
-
-const RRUpgradeLevels = {
-    RTR: 0,                   
-    RRGs: 0,
-    RRCostReduction: 0,
-    RRBrick: 0,
-    RRMagnet: 0,
-    RRBeam: 0,
-    RRMoreReinforced: 0,
-    RRFrag: 0,
-    RRReinforcedValue: 0
-};
-
-
-
-function getRTRMultiplier() {
-    const RTR = parseFloat(document.getElementById("RTR").value) || 0;
-    return Math.pow(RR_RTR_BASE, RTR);
-}
-
-// Format hours into Xd Xh Xm
-function formatTime(totalHours) {
-    const totalMinutes = Math.floor(totalHours * 60);
-    const days = Math.floor(totalMinutes / (60 * 24));
-    const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
-    const minutes = totalMinutes % 60;
-
-    let parts = [];
-    if (days > 0) parts.push(`${days}d`);
-    if (hours > 0 || days > 0) parts.push(`${hours}h`);
-    parts.push(`${minutes}m`);
-
-    return parts.join(" ");
-}
-
-// Map RR input IDs to nice display names
-const upgradeNameMap = {
-    RTR: "RTR",                     // 🆕 added
-    RRGs: "GS",
-    RRCostReduction: "CostRed",
-    RRBrick: "Brick",
-    RRMagnet: "Magnet",
-    RRBeam: "Beam",
-    RRMoreReinforced: "MoreReinf",
-    RRFrag: "Frag",
-    RRReinforcedValue: "ReinfVal"
-};
-
-
-// Keeps track of net changes so we can remove/update properly
-const RRUpgradeChanges = {};
-
-function updateUpgradesLabel(id, diff, timeChangeHours) {
-    const label = document.getElementById("RRUpgradesLabel");
-    const name = upgradeNameMap[id];
-
-    // Update our tracking object
-    RRUpgradeChanges[id] = (RRUpgradeChanges[id] || 0) + diff;
-
-    // If change goes back to 0, delete it from the list
-    if (RRUpgradeChanges[id] === 0) {
-        delete RRUpgradeChanges[id];
+    function getRTRMultiplier() {
+        const RTR = parseFloat(document.getElementById("RTR").value) || 0;
+        return Math.pow(RR_RTR_BASE, RTR);
     }
 
-    // Rebuild the label from scratch
-    const entries = Object.entries(RRUpgradeChanges).map(([key, change]) => {
-        const displayName = upgradeNameMap[key];
-        const timeForChange = getTimeForChange(key, change);
-        const sign = change > 0 ? "+" : "";
-        return `${displayName}${sign}${change} (${timeForChange})`;
-    });
+    // Format hours into Xd Xh Xm
+    function formatTime(totalHours) {
+        const totalMinutes = Math.floor(totalHours * 60);
+        const days = Math.floor(totalMinutes / (60 * 24));
+        const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+        const minutes = totalMinutes % 60;
 
-    label.textContent = entries.length > 0
-        ? `Upgrades Done: ${entries.join(", ")}`
-        : "Upgrades Done: None";
-}
+        let parts = [];
+        if (days > 0) parts.push(`${days}d`);
+        if (hours > 0 || days > 0) parts.push(`${hours}h`);
+        parts.push(`${minutes}m`);
 
-// Helper: calculate total time change for a particular upgrade ID and diff
-function getTimeForChange(id, diff) {
-    const oldVal = RRUpgradeLevels[id];
-    const newVal = oldVal + diff;
-    const rtrMult = getRTRMultiplier();
-
-    let total = 0;
-    if (diff > 0) {
-        for (let lvl = newVal - diff + 1; lvl <= newVal; lvl++) {
-            total += 6 * lvl * rtrMult;
-        }
-    } else {
-        for (let lvl = oldVal; lvl > newVal; lvl--) {
-            total -= 6 * lvl * rtrMult;
-        }
+        return parts.join(" ");
     }
 
-    return (diff > 0 ? "+" : "") + formatTime(Math.abs(total));
-}
+    // Map RR input IDs to nice display names
+    const upgradeNameMap = {
+        RTR: "RTR",                     
+        RRGs: "GS",
+        RRCostReduction: "CostRed",
+        RRBrick: "Brick",
+        RRMagnet: "Magnet",
+        RRBeam: "Beam",
+        RRMoreReinforced: "MoreReinf",
+        RRFrag: "Frag",
+        RRReinforcedValue: "ReinfVal",
+        RREnchantedFrags: "EnchantedFrag",
+         RRMoreEnchantedFrags: "RRMoreEnchantedFrags",
+          RRFasterCombine: "RRFasterCombine"
+    };
 
-function startRRCounting() {
-    RRCountingEnabled = true;
-    RRTotalTimeHours = 0;
+
+    // Keeps track of net changes so we can remove/update properly
+    const RRUpgradeChanges = {};
+
+    function updateUpgradesLabel(id, diff, timeChangeHours) {
+        const label = document.getElementById("RRUpgradesLabel");
+        const name = upgradeNameMap[id];
+
+        // Update our tracking object
+        RRUpgradeChanges[id] = (RRUpgradeChanges[id] || 0) + diff;
+
+        // If change goes back to 0, delete it from the list
+        if (RRUpgradeChanges[id] === 0) {
+            delete RRUpgradeChanges[id];
+        }
+
+        // Rebuild the label from scratch
+        const entries = Object.entries(RRUpgradeChanges).map(([key, change]) => {
+            const displayName = upgradeNameMap[key];
+            const timeForChange = getTimeForChange(key, change);
+            const sign = change > 0 ? "+" : "";
+            return `${displayName}${sign}${change} (${timeForChange})`;
+        });
+
+        label.textContent = entries.length > 0
+            ? `Upgrades Done: ${entries.join(", ")}`
+            : "Upgrades Done: None";
+    }
+
+    // Helper: calculate total time change for a particular upgrade ID and diff
+    function getTimeForChange(id, diff) {
+        const oldVal = RRUpgradeLevels[id];
+        const newVal = oldVal + diff;
+        const rtrMult = getRTRMultiplier();
+
+        let total = 0;
+        if (diff > 0) {
+            for (let lvl = newVal - diff + 1; lvl <= newVal; lvl++) {
+                total += 6 * lvl * rtrMult;
+            }
+        } else {
+            for (let lvl = oldVal; lvl > newVal; lvl--) {
+                total -= 6 * lvl * rtrMult;
+            }
+        }
+
+        return (diff > 0 ? "+" : "") + formatTime(Math.abs(total));
+    }
+
+    function startRRCounting() {
+        RRCountingEnabled = true;
+        RRTotalTimeHours = 0;
+
+        Object.keys(RRUpgradeLevels).forEach(id => {
+            RRUpgradeLevels[id] = parseFloat(document.getElementById(id).value) || 0;
+        });
+
+
+        for (const key in RRUpgradeChanges) delete RRUpgradeChanges[key];
+
+        document.getElementById("RRUpgradesLabel").textContent = "Upgrades Done: None";
+        document.getElementById("outpu").textContent = `Total Time: ${formatTime(RRTotalTimeHours)}`;
+    }
+
+
+
+    document.getElementById("RRStartButton").addEventListener("click", startRRCounting);
+
 
     Object.keys(RRUpgradeLevels).forEach(id => {
-        RRUpgradeLevels[id] = parseFloat(document.getElementById(id).value) || 0;
+        const el = document.getElementById(id);
+        el.addEventListener("input", () => {
+            if (!RRCountingEnabled) return;
+
+            const newValue = parseFloat(el.value) || 0;
+            const oldValue = RRUpgradeLevels[id];
+            const diff = newValue - oldValue;
+
+            if (diff === 0) return;
+
+            let timeChangeHours = 0;
+
+            if (id === "RTR") {
+
+                RRUpgradeLevels[id] = newValue;
+
+                let newTotalHours = 0;
+                for (const key in RRUpgradeLevels) {
+                    if (key === "RTR") continue;
+                    const lvl = RRUpgradeLevels[key];
+                    for (let i = 1; i <= lvl; i++) {
+                        newTotalHours += 6 * i * getRTRMultiplier();
+                    }
+                }
+
+                RRTotalTimeHours = newTotalHours;
+                
+
+            } else if (diff > 0) {
+                for (let lvl = oldValue + 1; lvl <= newValue; lvl++) {
+                    timeChangeHours += 6 * lvl * getRTRMultiplier();
+                }
+                RRTotalTimeHours += timeChangeHours;
+
+            } else if (diff < 0) {
+                for (let lvl = oldValue; lvl > newValue; lvl--) {
+                    timeChangeHours -= 6 * lvl * getRTRMultiplier();
+                }
+                RRTotalTimeHours += timeChangeHours;
+            }
+
+            RRUpgradeLevels[id] = newValue;
+            if (RRTotalTimeHours < 0) RRTotalTimeHours = 0;
+
+            document.getElementById("outpu").textContent =
+                `Total Time: ${formatTime(RRTotalTimeHours)}`;
+
+            updateUpgradesLabel(id, diff, timeChangeHours);
+        });
     });
 
- 
-    for (const key in RRUpgradeChanges) delete RRUpgradeChanges[key];
-
-    document.getElementById("RRUpgradesLabel").textContent = "Upgrades Done: None";
-    document.getElementById("outpu").textContent = `Total Time: ${formatTime(RRTotalTimeHours)}`;
 }
 
 
 
-document.getElementById("RRStartButton").addEventListener("click", startRRCounting);
 
 
-Object.keys(RRUpgradeLevels).forEach(id => {
-    const el = document.getElementById(id);
-    el.addEventListener("input", () => {
-        if (!RRCountingEnabled) return;
+function SY_Calc() {
 
-        const newValue = parseFloat(el.value) || 0;
-        const oldValue = RRUpgradeLevels[id];
-        const diff = newValue - oldValue;
+    SY_CurrentV2 = parseFloat(document.getElementById("SY_CurrentV2").value) || 0;
+    SY_CurrentV3 = parseFloat(document.getElementById("SY_CurrentV3").value) || 0;
+    SY_CurrentV4 = parseFloat(document.getElementById("SY_CurrentV4").value) || 0;
+    SY_CurrentV5 = parseFloat(document.getElementById("SY_CurrentV5").value) || 0;
+    SY_CurrentV6 = parseFloat(document.getElementById("SY_CurrentV6").value) || 0;
 
-        if (diff === 0) return;
+    SY_TargetV2 = parseFloat(document.getElementById("SY_TargetV2").value) || 0;
+    SY_TargetV3 = parseFloat(document.getElementById("SY_TargetV3").value) || 0;
+    SY_TargetV4 = parseFloat(document.getElementById("SY_TargetV4").value) || 0;
+    SY_TargetV5 = parseFloat(document.getElementById("SY_TargetV5").value) || 0;
+    SY_TargetV6 = parseFloat(document.getElementById("SY_TargetV6").value) || 0;
 
-        let timeChangeHours = 0;
+    SY_BrickUp = parseFloat(document.getElementById("SY_BrickUp").value) || 0;
 
-        if (id === "RTR") {
-           
-            RRUpgradeLevels[id] = newValue;
 
-            let newTotalHours = 0;
-            for (const key in RRUpgradeLevels) {
-                if (key === "RTR") continue;
-                const lvl = RRUpgradeLevels[key];
-                for (let i = 1; i <= lvl; i++) {
-                    newTotalHours += 6 * i * getRTRMultiplier();
-                }
-            }
 
-            RRTotalTimeHours = newTotalHours;
-            timeChangeHours = 0; // RTR itself has no direct time cost
 
-        } else if (diff > 0) {
-            for (let lvl = oldValue + 1; lvl <= newValue; lvl++) {
-                timeChangeHours += 6 * lvl * getRTRMultiplier();
-            }
-            RRTotalTimeHours += timeChangeHours;
 
-        } else if (diff < 0) {
-            for (let lvl = oldValue; lvl > newValue; lvl--) {
-                timeChangeHours -= 6 * lvl * getRTRMultiplier();
-            }
-            RRTotalTimeHours += timeChangeHours;
-        }
 
-        RRUpgradeLevels[id] = newValue;
-        if (RRTotalTimeHours < 0) RRTotalTimeHours = 0;
 
-        document.getElementById("outpu").textContent =
-            `Total Time: ${formatTime(RRTotalTimeHours)}`;
 
-        updateUpgradesLabel(id, diff, timeChangeHours);
+let SY_CurrentV2Cost = (4**( (SY_CurrentV2-1) - SY_BrickUp - 10* (SY_CurrentV6-1))) / Math.pow(4, 10 * (SY_CurrentV6 - 1));
+let SY_CurrentV3Cost = Math.ceil(SY_CurrentV3 * 1);
+let SY_CurrentV4Cost = 1000 * SY_CurrentV4 * Math.pow(1.4, Math.floor(SY_CurrentV4 / 25)) * 1;
+let SY_CurrentV5Cost = 2 ** (SY_CurrentV5 - 1);
+let SY_CurrentV6Cost = 
+10 ** (900 + 3 * (SY_CurrentV6 - 1) * (SY_CurrentV6 ** 0.5));
+
+
+
+
+
+document.getElementById("SY_Outputv2").textContent = `test output: ${Math.floor(SY_CurrentV2Cost).toLocaleString()}`;
+document.getElementById("SY_Outputv3").textContent = `test output: ${Math.floor(SY_CurrentV3Cost).toLocaleString()}`;
+document.getElementById("SY_Outputv4").textContent = `test output: ${Math.floor(SY_CurrentV4Cost).toLocaleString()}`;
+document.getElementById("SY_Outputv5").textContent = `test output: ${Math.floor(SY_CurrentV5Cost).toLocaleString()}`;
+document.getElementById("SY_Outputv6").textContent = `test output: ${Math.floor(SY_CurrentV6Cost).toLocaleString()}`;
+}
+
+
+
+
+[
+    "SY_CurrentV2", "SY_CurrentV3", "SY_CurrentV4", "SY_CurrentV5", "SY_CurrentV6",
+    "SY_TargetV2", "SY_TargetV3", "SY_TargetV4", "SY_TargetV5", "SY_TargetV6", "SY_BrickUp"
+].forEach(id => {
+    document.getElementById(id).addEventListener("input", () => {
+        SY_Calc();
     });
 });
 
 
-}
+window.addEventListener("DOMContentLoaded", () => SY_Calc());
+
+
+
+
